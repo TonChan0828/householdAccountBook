@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->unsignedBigInteger('id', true);
             $table->string('name');
+            $table->boolean('balance');
             $table->unsignedBigInteger('user_id');
             $table->timestamp('updated_at')->default(\DB::raw("CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"));
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
