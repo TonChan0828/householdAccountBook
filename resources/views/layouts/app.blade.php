@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="/css/layout.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -75,8 +76,42 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
+        <main>
+            <div class="row">
+                <div class="col-sm-12 col-md-1 p-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="text-center">年</h6>
+                        </div>
+                        <div class="card-body my-card-body">
+                            <p class="text-center">2019</p>
+                            <p class="text-center">2020</p>
+                            <p class="text-center">2021</p>
+                            <p class="text-center">2022</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-1 p-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="text-center">月</h6>
+                        </div>
+                        <div class="card-body my-card-body">
+                            <p class="text-center">1</p>
+                            <p class="text-center">2</p>
+                            <p class="text-center">3</p>
+                            <p class="text-center">4</p>
+                            <p class="text-center">5</p>
+                            <p class="text-center">6</p>
+                            <p class="text-center">7</p>
+                            <p class="text-center">8</p>
+                            <p class="text-center">9</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-10 p-0">
+                    @yield('content')
+                </div>
         </main>
     </div>
 </body>
