@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Book;
 
 class HomeController extends Controller
 {
@@ -21,8 +22,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        // 記録されている年月を取得
+        $years = \DB::table('books')->select('year')->groupBy('year')->get();
+        $months = \DB::table('books')->select('month')->where('year', '=', 2020)->groupBy('month')->get();
+
+        // 選択(初回は最新の編集した)データを取得
+        $selectData = \DB::table('books')->orderBy('updated_at', 'DESC')->limit(1)->get();
+        // dd($selectData);
+        return view('home', compact('years', 'months', 'selectData'));
     }
 }
