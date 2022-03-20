@@ -13,15 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->unsignedBigInteger('id', true);
-            $table->string('name');
+            $table->unsignedInteger('amount');
             $table->boolean('balance'); //0が収入、1が支出
+            $table->unsignedBigInteger('time_id');
+            $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('user_id');
-            $table->timestamp('updated_at')->default(\DB::raw("CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('time_id')->references('id')->on('times');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
@@ -32,7 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
         Schema::dropIfExists('books');
     }
 };
