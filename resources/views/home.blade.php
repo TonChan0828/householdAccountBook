@@ -3,10 +3,10 @@
 @section('content')
 <div class="card">
     <div class="card-header d-flex justify-content-between">
-        {{-- <h6>{{ $selectData->year }}年{{ $selectData }}月</h6> --}}
-        @foreach ($selectData as $data)
-            {{ $data->year }}年{{ $data->month }}月
+        @foreach ($selectTime as $item)
+            <h6>{{ $item->year }}年{{ $item->month }}月</h6>
         @endforeach
+
     </div>
     <div class="card-body row  my-card-body">
         <div class="col-3">

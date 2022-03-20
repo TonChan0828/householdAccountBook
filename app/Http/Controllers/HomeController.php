@@ -25,12 +25,27 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         // 記録されている年月を取得
-        $years = \DB::table('books')->select('year')->groupBy('year')->get();
-        $months = \DB::table('books')->select('month')->where('year', '=', 2020)->groupBy('month')->get();
-
-        // 選択(初回は最新の編集した)データを取得
-        $selectData = \DB::table('books')->orderBy('updated_at', 'DESC')->limit(1)->get();
+        $years = \DB::table('times')->select('year')->distinct()->get();
+        $monthQuery = \DB::table('times');
         // dd($selectData);
-        return view('home', compact('years', 'months', 'selectData'));
+
+        if (!empty($request->year)) {
+            // 年を選択されている場合
+            $monthQuery->where('year', '=', $request->year);
+        } else {
+            // 年を詮索されていない場合
+            // 最新のレコードのtime_idを取得
+            $selectNewTime = \DB::table('books')->select('time_id')->orderBy('updated_at', 'DESC')->first();
+            $selectYear = \DB::table('times')->select('year')->where('id', '=', $selectNewTime->time_id)->first();
+            // 最新のbooksレコードの年を表示
+            $monthQuery->where('year', '=', $selectYear->year);
+        }
+        $months = $monthQuery->get();
+
+        // 選択された年月のデータを取得
+        $selectTime = \DB::table('times')->where('id', '=', $request->time)->get();
+        $selectData = \DB::table('books')->where('time_id', '=', $request->time)->get();
+
+        return view('home', compact('years', 'months', 'selectTime', 'selectData'));
     }
 }

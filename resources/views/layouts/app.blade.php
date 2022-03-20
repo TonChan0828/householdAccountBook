@@ -84,9 +84,8 @@
                             <h6 class="text-center">年</h6>
                         </div>
                         <div class="card-body my-card-body">
-                            {{-- {{ $years }} --}}
-                            @foreach ($years as $item)
-                               <a class="card-text d-block text-center"> {{ $item->year }}</a>
+                            @foreach ($years as $data)
+                               <a href="/?year={{ $data->year }}" class="card-text d-block text-center"> {{ $data->year }}年</a>
                             @endforeach
 
                         </div>
@@ -98,8 +97,8 @@
                             <h6 class="text-center">月</h6>
                         </div>
                         <div class="card-body my-card-body">
-                            @foreach ($months as $item)
-                               <a class="card-text d-block text-center"> {{ $item->month }}</a>
+                            @foreach ($months as $data)
+                               <a  href="/?time={{ $data->id }}" class="card-text d-block text-center"> {{ $data->month }}月</a>
                             @endforeach
                         </div>
                     </div>
