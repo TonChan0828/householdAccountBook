@@ -16,47 +16,48 @@ class BooksTableSeeder extends Seeder
      */
     public function run()
     {
+        $time = 1;
         $year = 2019;
         for ($month = 1; $month <= 12; $month++) {
             for ($i = 1; $i <= 20; $i++) {
                 $param = [
                     'amount' => ($i * 100),
-                    'year' => $year,
-                    'month' => $month,
                     'balance' => ($i % 2),
+                    'time_id' => $time,
                     'category_id' => $i,
                     'user_id' => 1,
                 ];
                 DB::table('books')->insert($param);
             }
+            $time++;
         }
         $year = 2020;
         for ($month = 1; $month <= 11; $month++) {
             for ($i = 1; $i <= 18; $i++) {
                 $param = [
                     'amount' => ($i * 100),
-                    'year' => $year,
-                    'month' => $month,
                     'balance' => ($i % 2),
+                    'time_id' => $time,
                     'category_id' => $i,
                     'user_id' => 1,
                 ];
                 DB::table('books')->insert($param);
             }
+            $time++;
         }
         $year = 2021;
         for ($month = 1; $month <= 10; $month++) {
             for ($i = 1; $i <= 15; $i++) {
                 $param = [
                     'amount' => ($i * 100),
-                    'year' => $year,
-                    'month' => $month,
                     'balance' => ($i % 2),
+                    'time_id' => $time,
                     'category_id' => $i,
                     'user_id' => 1,
                 ];
                 DB::table('books')->insert($param);
             }
+            $time++;
         }
 
         $year = 2022;
@@ -64,14 +65,14 @@ class BooksTableSeeder extends Seeder
             for ($i = 1; $i <= 10; $i++) {
                 $param = [
                     'amount' => ($i * 100),
-                    'year' => $year,
-                    'month' => $month,
                     'balance' => ($i % 2),
+                    'time_id' => $time,
                     'category_id' => $i,
                     'user_id' => 1,
                 ];
                 DB::table('books')->insert($param);
             }
+            $time++;
         }
     }
 }
