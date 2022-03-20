@@ -29,23 +29,48 @@ class HomeController extends Controller
         $monthQuery = \DB::table('times');
         // dd($selectData);
 
+        // 表示するデータを選択
+        $selectData = self::modelingSelectData($request);
+
         if (!empty($request->year)) {
             // 年を選択されている場合
             $monthQuery->where('year', '=', $request->year);
         } else {
             // 年を詮索されていない場合
             // 最新のレコードのtime_idを取得
-            $selectNewTime = \DB::table('books')->select('time_id')->orderBy('updated_at', 'DESC')->first();
-            $selectYear = \DB::table('times')->select('year')->where('id', '=', $selectNewTime->time_id)->first();
             // 最新のbooksレコードの年を表示
-            $monthQuery->where('year', '=', $selectYear->year);
+            $monthQuery->where('year', '=', $selectData['year']);
         }
         $months = $monthQuery->get();
 
-        // 選択された年月のデータを取得
-        $selectTime = \DB::table('times')->where('id', '=', $request->time)->get();
-        $selectData = \DB::table('books')->where('time_id', '=', $request->time)->get();
+        return view('home', compact('years', 'months', 'selectData'));
+    }
 
-        return view('home', compact('years', 'months', 'selectTime', 'selectData'));
+    private function modelingSelectData(Request $request): array
+    {
+        $selectData = [];
+
+        // 選択された年月のデータを取得
+        if ($request->time) {
+            $selectTime = \DB::table('times')->where('id', '=', $request->time)->first();
+        } elseif ($request->year) {
+            $selectTime = \DB::table('times')->where('year', '=', $request->year)->orderBy('month', 'DESC')->first();
+        } else {
+            $latestRecord = \DB::table('books')->orderBy('id', 'DESC')->first();
+            $selectTime = \DB::table('times')->where('id', '=', $latestRecord->time_id)->first();
+        }
+        // dd($selectTime);
+        $selectData['year'] = $selectTime->year;
+        $selectData['month'] = $selectTime->month;
+
+        // 収入に関するデータを取得
+        // 収入合計
+        $selectData['incomeSum'] = \DB::table('books')->where('time_id', '=', $selectTime->id)->where('balance', '=', 0)->sum('amount');
+        $selectData['outgoSum'] = \DB::table('books')->where('time_id', '=', $selectTime->id)->where('balance', '=', 1)->sum('amount');
+
+        $selectData['income'] = \DB::table('books')->join('categories', 'books.category_id', '=', 'categories.id')->selectRaw("category_id as id, categories.name as name, SUM(books.amount) as sumAmount, categories.balance as balance")->where('time_id', '=', $selectTime->id)->groupBy('category_id')->get();
+        // dd($selectData['income']);
+        // var_dump($selectData);
+        return $selectData;
     }
 }
