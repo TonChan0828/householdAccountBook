@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card">
-    <div class="card-header d-flex justify-content-between">
-            <h6>{{ $selectData['year'] }}年{{ $selectData['month'] }}月</h6>
-    </div>
+    {{-- ToDo:テーブル表示に変更 --}}
     <div class="card-body row  my-card-body">
         <div class="col-3">
             <h3>収入：{{ $selectData['incomeSum'] }}円</h3>
@@ -27,5 +24,4 @@
 
         </div>
     </div>
-</div>
 @endsection

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Book;
+use App\Models\Time;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,8 +25,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer("*", function ($view) {
-            $book_model = new Book();
-            // $years =
+            $book_model = new Time();
+            $years = \DB::table('times')->select('year')->distinct()->get();
+
+            $view->with('years', $years);
         });
     }
 }
