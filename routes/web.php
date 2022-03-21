@@ -21,3 +21,5 @@ Auth::routes();
 
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/home', 'App\Http\Controllers\HomeController@index');
+Route::get('/edit', 'App\Http\Controllers\HomeController@edit');
+Route::get('/add', 'App\Http\Controllers\HomeController@add');
