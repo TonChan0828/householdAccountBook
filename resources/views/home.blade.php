@@ -21,7 +21,6 @@
         </div>
         <div class="col-6">
             <h3>収支：{{ $selectData['incomeSum'] - $selectData['outgoSum'] }}円</h3>
-
         </div>
     </div>
 @endsection
