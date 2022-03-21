@@ -78,42 +78,49 @@
 
         <main>
             <div class="row">
-                <div class="col-sm-12 col-md-1 p-0">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="text-center">年</h6>
+                <div class="col-sm-12 col-md-2 p-0">
+                    <div class="my-tag">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="text-center">年</h6>
+                                </div>
+                                <div class="card-body my-card-tag">
+                                    @foreach ($years as $data)
+                                       <a href="/?year={{ $data->year }}" class="card-text d-block text-center"> {{ $data->year }}年</a>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body my-card-body">
-                            @foreach ($years as $data)
-                               <a href="/?year={{ $data->year }}" class="card-text d-block text-center"> {{ $data->year }}年</a>
-                            @endforeach
-
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="text-center">月</h6>
+                                </div>
+                                <div class="card-body my-card-tag">
+                                    {{-- <a href="/?time_id=0" class="card-text d-block text-center">年間合計</a> --}}
+                                    @foreach ($months as $data)
+                                       <a href="/?time_id={{ $data->id }}" class="card-text d-block text-center"> {{ $data->month }}月</a>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-12 col-md-1 p-0">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="text-center">月</h6>
-                        </div>
-                        <div class="card-body my-card-body">
-                            {{-- <a href="/?time_id=0" class="card-text d-block text-center">年間合計</a> --}}
-                            @foreach ($months as $data)
-                               <a  href="/?time_id={{ $data->id }}" class="card-text d-block text-center"> {{ $data->month }}月</a>
-                            @endforeach
-                        </div>
+                    <div class="d-grid gap-2">
+                        <a href="/add" class="btn btn-primary">シート追加</a>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-10 p-0">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
-                                <h6>{{ $selectData['time']->year }}年{{ $selectData['time']->month }}月</h6>
-                                <a href="/edit?time_id={{$selectData['time']->id}}">追加</a>
+                                <h5>{{ $selectData['time']->year }}年{{ $selectData['time']->month }}月</h6>
+                                <a href="/edit?time_id={{$selectData['time']->id}}"  class="btn btn-primary btn-sm">データ追加</a>
                         </div>
                         @yield('content')
                     </div>
                 </div>
+            </div>
+
         </main>
-    </div>
 </body>
 </html>

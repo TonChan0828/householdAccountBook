@@ -98,6 +98,6 @@ class HomeController extends Controller
     {
         list($selectData, $months) = self::createData($request);
 
-        return view('edit', compact('months', 'selectData'));
+        return view('add', compact('months', 'selectData'));
     }
 }

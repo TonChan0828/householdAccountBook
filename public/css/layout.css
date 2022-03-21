@@ -1,3 +1,11 @@
 .my-card-body {
-    height: calc(100vh - (55px + 43px));
+    height: calc(100vh - (60px + 48px));
+}
+
+.my-card-tag {
+    height: calc(100vh - (60px + 48px + 38px));
+}
+
+.my-tag {
+    display: flex;
 }
