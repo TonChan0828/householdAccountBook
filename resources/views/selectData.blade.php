@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="card-body row  my-card-body">
-        <form>
+        <form id="editData-form" action="editData" method="POST">
+          @csrf
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">カテゴリー</label>
               <input type="text" class="form-control" list="category">

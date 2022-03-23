@@ -21,5 +21,7 @@ Auth::routes();
 
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/home', 'App\Http\Controllers\HomeController@index');
-Route::get('/editData', 'App\Http\Controllers\HomeController@editData');
-Route::get('/editSheet', 'App\Http\Controllers\HomeController@editSheet');
+Route::get('/selectData', 'App\Http\Controllers\HomeController@selectData');
+Route::post('/editData', 'App\Http\Controllers\HomeController@editData');
+Route::get('/selectSheet', 'App\Http\Controllers\HomeController@selectSheet');
+Route::post('/editSheet', 'App\Http\Controllers\HomeController@editSheet');

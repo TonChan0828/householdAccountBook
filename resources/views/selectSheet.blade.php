@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="card-body row  my-card-body">
-  <form>
+  <form action="/selectSheet" method="POST">
+    @csrf
     <div class="row">
       <div class="mb-3 col">
         年

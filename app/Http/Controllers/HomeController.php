@@ -87,17 +87,29 @@ class HomeController extends Controller
         return $months;
     }
 
-    public function editData(Request $request)
+    public function selectData(Request $request)
     {
         list($selectData, $months) = self::createData($request);
 
-        return view('editData', compact('months', 'selectData'));
+        return view('selectData', compact('months', 'selectData'));
     }
 
-    public function editSheet(Request $request)
+    public function editData()
+    {
+
+        return redirect('/home');
+    }
+
+    public function selectSheet(Request $request)
     {
         list($selectData, $months) = self::createData($request);
 
-        return view('editSheet', compact('months', 'selectData'));
+        return view('selectSheet', compact('months', 'selectData'));
+    }
+
+    public function editSheet()
+    {
+
+        return redirect('/home');
     }
 }
