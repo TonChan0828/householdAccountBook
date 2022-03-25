@@ -107,14 +107,14 @@
                         </div>
                     </div>
                     <div class="d-grid gap-2">
-                        <a href="/selectSheet?time_id={{$selectData['time']->id}}" class="btn btn-primary">シート追加</a>
+                        <a href="/selectSheet?time_id={{$selectData['time']->id}}" class="btn btn-primary">シート追加・削除</a>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-10 p-0">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                                 <h5>{{ $selectData['time']->year }}年{{ $selectData['time']->month }}月</h6>
-                                <a href="/selectData?time_id={{$selectData['time']->id}}"  class="btn btn-primary btn-sm me-3">データ追加</a>
+                                <a href="/selectData?time_id={{$selectData['time']->id}}"  class="btn btn-primary btn-sm me-3">データ編集</a>
                         </div>
                         @yield('content')
                     </div>

@@ -26,7 +26,8 @@
               <label class="form-check-label" for="inlineCheckbox2">支出</label>
             </div>
             <div class="text-right me-3">
-              <button type="submit" class="btn btn-primary">追加</button>
+              <button type="submit" name="addData" class="btn btn-primary">追加</button>
+              <button type="submit" name="deleteData" class="btn btn-primary">削除</button>
             </div>
           </form>
     </div>

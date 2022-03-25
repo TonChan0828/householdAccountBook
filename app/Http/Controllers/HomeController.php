@@ -94,8 +94,9 @@ class HomeController extends Controller
         return view('selectData', compact('months', 'selectData'));
     }
 
-    public function editData()
+    public function editData(Request $request)
     {
+        dd($request->all());
 
         return redirect('/home');
     }
@@ -107,9 +108,31 @@ class HomeController extends Controller
         return view('selectSheet', compact('months', 'selectData'));
     }
 
-    public function editSheet()
+    public function editSheet(Request $request)
     {
+        $validatedTime = $request->validate(['year' => 'required|integer', 'month' => 'required|integer', 'edit' => 'required']);
 
+        \DB::transaction(function () use ($validatedTime) {
+            $isExist = \DB::table('times')
+                ->where('year', '=', $validatedTime['year'])
+                ->where('month', '=', $validatedTime['month'])
+                ->whereNull('deleted_at')->exists();
+
+            if ($validatedTime['edit'] === 'add') {
+                if (!$isExist && $validatedTime['month'] >= 1 && $validatedTime['month'] <= 12) {
+                    \DB::table('times')
+                        ->insertGetId(['year' => $validatedTime['year'], 'month' => $validatedTime['month'], 'user_id' => \Auth::id()]);
+                }
+            } elseif ($validatedTime['edit'] === 'delete') {
+                if ($isExist) {
+                    \DB::table('times')
+                        ->where('year', '=', $validatedTime['year'])
+                        ->where('month', '=', $validatedTime['month'])
+                        ->whereNull('deleted_at')
+                        ->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
+                }
+            }
+        });
         return redirect('/home');
     }
 }
