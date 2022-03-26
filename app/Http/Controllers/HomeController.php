@@ -97,7 +97,31 @@ class HomeController extends Controller
 
     public function editData(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        $validatedInput = $request->validate(['timeId' => 'required|integer', 'balance' => 'required|boolean', 'category' => 'required|string', 'price' => 'required|integer', 'edit' => 'required']);
+        // dd($validatedInput);
+        \DB::transaction(function () use ($validatedInput) {
+            $isExistCategory = \DB::table('categories')
+                ->where('name', '=', $validatedInput['category'])->whereNull('deleted_at')->exists();
+
+            if ($validatedInput['edit'] === 'add') {
+                if (!$isExistCategory) {
+                    \DB::table('categories')
+                        ->insertGetId(['name' => $validatedInput['category'], 'balance' => $validatedInput['balance'], 'user_id' => \Auth::id()]);
+                }
+                if ($validatedInput['price'] !== '0') {
+                    $categoryData = \DB::table('categories')
+                        ->where('name', '=', $validatedInput['category'])
+                        ->where('user_id', '=', \Auth::id())
+                        ->whereNull('deleted_at')->first();
+                    \DB::table('books')
+                        ->insertGetId(['amount' => $validatedInput['price'], 'balance' => $validatedInput['balance'], 'time_id' => $validatedInput['timeId'], 'category_id' => $categoryData->id, 'user_id' => \Auth::id()]);
+                }
+            } elseif ($validatedInput['edit'] === 'delete') {
+                if ($isExistCategory) {
+                }
+            }
+        });
 
         return redirect('/home');
     }

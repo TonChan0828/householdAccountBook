@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->unsignedBigInteger('id', true);
-            $table->unsignedInteger('amount');
+            $table->bigInteger('amount');
             $table->boolean('balance'); //0が収入、1が支出
             $table->unsignedBigInteger('time_id');
             $table->unsignedBigInteger('category_id');
