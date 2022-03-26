@@ -90,8 +90,9 @@ class HomeController extends Controller
     public function selectData(Request $request)
     {
         list($selectData, $months) = self::createData($request);
-
-        return view('selectData', compact('months', 'selectData'));
+        $categories = \DB::table('categories')->where('user_id', '=', \Auth::id())->get();
+        // dd($categories);
+        return view('selectData', compact('months', 'selectData', 'categories'));
     }
 
     public function editData(Request $request)

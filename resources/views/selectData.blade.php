@@ -8,9 +8,9 @@
               <label for="exampleInputEmail1" class="form-label">カテゴリー</label>
               <input type="text" class="form-control" list="category">
               <datalist id="category">
-                <option value="サッカー">
-                  <option value="野球">
-                  <option value="ゴルフ">
+                @foreach ($categories as $item)
+                    <option value=" {{ $item->name }}">
+                @endforeach
                 </datalist>
             </div>
             <div class="mb-3">
