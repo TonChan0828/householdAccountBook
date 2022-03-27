@@ -23,7 +23,7 @@
             <h3>収支：{{ $selectData['incomeSum'] - $selectData['outgoSum'] }}円</h3>
 
             <canvas id="myBarChart"></canvas>
-            // <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
             <script>
                 const ctx = document.getElementById("myBarChart");
                 const myBarChart = new Chart(ctx, {
