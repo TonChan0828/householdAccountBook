@@ -13,17 +13,20 @@
   * users
     * id, name, email, password, updated-at, created_at
   * books
-    * id, amount, year, month, category_id, user_id, updated_at, deleted_at
+    * id, amount, time_id, category_id, user_id, updated_at, deleted_at
   * category
-    * id, name, user_id, updated_at, deleted_at
+    * id, name, user_id, updated_at, deleted_at, created_at
+  * times
+    * id, year, month, user_id, updated_at, created_at, deleted_at
 
   ## レイアウト　イメージ図
   ![layout](/Users/show/workspace/householdAccountBook/家計簿アプリ_イメージ図.pdf)
 
   ##　課題
-  * 年、月はどうやって追加削除するか？
-  * カテゴリーの追加はどこでするか？
-  * 各カテゴリーの金額をどうやって追加するか？
-  * グラフの描画方法
-  * 各カテゴリーの詳細表示の方法
+  * デザイン面の修正
+  * JS/TSによるフロント処理の追加
+    * 各カテゴリーの詳細表示の方法
+    * 連続データ追加
+  * Docker環境の作成
+  * AWSへのデプロイ
   *
