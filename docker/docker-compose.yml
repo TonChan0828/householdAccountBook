@@ -6,20 +6,22 @@ services:
       dockerfile: ./app/Dockerfile
     container_name: laravel_app
     ports:
-      - "8080:80"
+      - "8000:80"
     volumes:
       - ./src:/var/www/html
 
   db:
-    image: mysql/mysql-server:5.7
     platform: linux/amd64
+    image: mysql:5.7
     container_name: laravel_db
     environment:
+    # rootとuserのパスワードなどを同じものにしてはいけない
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: my_database
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
       TZ: 'Asia/Tokyo'
+      command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./db/data:/var/lib/mysql
       - ./db/my.conf:/etc/mysql/conf.d/my.conf
@@ -31,13 +33,13 @@ services:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
     depends_on:
-      - larabel_db
+      - db
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOSTS=laravel_db
-      - PMA_USER=root
-      - PMA_PASSWORD=root
-    volumes:
-      - ./docker/phpmyadmin/sessions:/sessions
+      - PMA_HOST=db
+      - PMA_USER=admin
+      - PMA_PASSWORD=password
     ports:
-      - "8081:80"
+      - "8080:80"
+    volumes:
+      - ./phpmyadmin/sessions:/sessions
