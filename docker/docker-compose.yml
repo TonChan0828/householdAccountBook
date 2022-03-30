@@ -12,26 +12,32 @@ services:
 
   db:
     image: mysql/mysql-server:5.7
+    platform: linux/amd64
     container_name: laravel_db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: docker-database
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
       TZ: 'Asia/Tokyo'
     volumes:
       - ./db/data:/var/lib/mysql
-      - ./db/my.conf:/etc/mysql/conf.d/my/conf
+      - ./db/my.conf:/etc/mysql/conf.d/my.conf
+      # - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
 
   phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
+    depends_on:
+      - larabel_db
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOSTS=db-host
+      - PMA_HOSTS=laravel_db
       - PMA_USER=root
       - PMA_PASSWORD=root
+    volumes:
+      - ./docker/phpmyadmin/sessions:/sessions
     ports:
       - "8081:80"
