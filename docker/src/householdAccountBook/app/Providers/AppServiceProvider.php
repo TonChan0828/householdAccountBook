@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Time;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer("*", function ($view) {
+            $book_model = new Time();
+            $years = \DB::table('times')->select('year')->whereNull('deleted_at')->distinct()->orderBy('year', 'ASC')->get();
+
+            $view->with('years', $years);
+        });
     }
 }
