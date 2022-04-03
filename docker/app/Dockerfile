@@ -15,4 +15,6 @@ ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 
 WORKDIR /var/www/html
-RUN composer global require "laravel/installer"
+RUN composer global require "laravel/installer" \\
+    && apt-get install nodejs -y \\
+    && apt-get install npm -y \\
