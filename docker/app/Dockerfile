@@ -3,6 +3,7 @@ FROM php:8.0-apache
 RUN apt-get update \
     && apt-get install -y \
     zlib1g-dev libpq-dev unzip zip\
+    nodejs npm \
     && docker-php-ext-install pdo_mysql mysqli \
     && docker-php-ext-enable mysqli
 
@@ -15,6 +16,5 @@ ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 
 WORKDIR /var/www/html
-RUN composer global require "laravel/installer" \\
-    && apt-get install nodejs -y \\
-    && apt-get install npm -y \\
+RUN composer global require "laravel/installer" \
+    && laravel new householdAccountBook \
