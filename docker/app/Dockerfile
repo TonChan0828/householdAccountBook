@@ -17,4 +17,10 @@ ENV PATH $PATH:/composer/vendor/bin
 
 WORKDIR /var/www/html
 RUN composer global require "laravel/installer" \
-    && laravel new householdAccountBook \
+    && cd /etc/apache2/mods-enabled \
+    && ln -s ../mods-available/rewrite.load
+# && laravel new householdAccountBook \
+# && cd householdAccountBook \
+# && composer require laravel/ui \
+# && php artisan ui bootstrap --auth
+# && npm install && npm run dev
