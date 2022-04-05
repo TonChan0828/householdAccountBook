@@ -2,7 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+docker/src/householdAccountBook/vendor/
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
@@ -12,5 +12,5 @@ yarn-error.log
 /.idea
 /.vscode
 .DS_Store
-db/data
-db/sql
+data/
+sql/
