@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer("*", function ($view) {
             $book_model = new Time();
-            $years = \DB::table('times')->select('year')->whereNull('deleted_at')->distinct()->orderBy('year', 'ASC')->get();
+            $years = \DB::table('times')->select('year')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->distinct()->orderBy('year', 'ASC')->get();
 
             $view->with('years', $years);
         });

@@ -47,8 +47,16 @@ class HomeController extends Controller
         } elseif ($request->year) {
             $selectTime = \DB::table('times')->where('year', '=', $request->year)->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('month', 'DESC')->first();
         } else {
-            $latestRecord = \DB::table('books')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
-            $selectTime = \DB::table('times')->where('id', '=', $latestRecord->time_id)->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->first();
+            if (\DB::table('times')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->exists()) {
+                // $latestRecord = \DB::table('books')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
+                $selectTime = \DB::table('times')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
+            } else {
+                \DB::transaction(function () {
+                    \DB::table('times')
+                        ->insertGetId(['year' => date('Y'), 'month' => date('n'), 'user_id' => \Auth::id()]);
+                });
+                $selectTime = \DB::table('times')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->first();
+            }
         }
         // dd($selectTime);
         $selectData['time'] = $selectTime;
@@ -82,7 +90,7 @@ class HomeController extends Controller
             // 最新のbooksレコードの年を表示
             $monthQuery->where('year', '=', $selectData['time']->year);
         }
-        $months = $monthQuery->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->get();
+        $months = $monthQuery->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('month', 'ASC')->get();
 
         return $months;
     }
