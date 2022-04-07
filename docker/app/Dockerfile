@@ -18,7 +18,8 @@ ENV PATH $PATH:/composer/vendor/bin
 WORKDIR /var/www/html
 RUN composer global require "laravel/installer" \
     && cd /etc/apache2/mods-enabled \
-    && ln -s ../mods-available/rewrite.load
+    && ln -s ../mods-available/rewrite.load \
+    && composer require --dev squizlabs/php_codesniffer
 # && laravel new householdAccountBook \
 # && cd householdAccountBook \
 # && composer require laravel/ui \
