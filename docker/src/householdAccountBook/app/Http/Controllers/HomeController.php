@@ -43,19 +43,35 @@ class HomeController extends Controller
 
         // 選択された年月のデータを取得
         if ($request->time_id) {
-            $selectTime = \DB::table('times')->where('id', '=', $request->time_id)->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->first();
+            $selectTime = \DB::table('times')
+                ->where('id', '=', $request->time_id)
+                ->where('user_id', '=', \Auth::id())
+                ->whereNull('deleted_at')
+                ->first();
         } elseif ($request->year) {
-            $selectTime = \DB::table('times')->where('year', '=', $request->year)->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('month', 'DESC')->first();
+            $selectTime = \DB::table('times')
+                ->where('year', '=', $request->year)
+                ->where('user_id', '=', \Auth::id())
+                ->whereNull('deleted_at')
+                ->orderBy('month', 'DESC')
+                ->first();
         } else {
             if (\DB::table('times')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->exists()) {
                 // $latestRecord = \DB::table('books')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
-                $selectTime = \DB::table('times')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
+                $selectTime = \DB::table('times')
+                    ->where('user_id', '=', \Auth::id())
+                    ->whereNull('deleted_at')
+                    ->orderBy('id', 'DESC')
+                    ->first();
             } else {
                 \DB::transaction(function () {
                     \DB::table('times')
                         ->insertGetId(['year' => date('Y'), 'month' => date('n'), 'user_id' => \Auth::id()]);
                 });
-                $selectTime = \DB::table('times')->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->first();
+                $selectTime = \DB::table('times')
+                    ->where('user_id', '=', \Auth::id())
+                    ->whereNull('deleted_at')
+                    ->first();
             }
         }
         // dd($selectTime);
@@ -63,10 +79,27 @@ class HomeController extends Controller
 
         // 収入に関するデータを取得
         // 収入合計
-        $selectData['incomeSum'] = \DB::table('books')->where('time_id', '=', $selectTime->id)->where('balance', '=', 0)->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->sum('amount');
-        $selectData['outgoSum'] = \DB::table('books')->where('time_id', '=', $selectTime->id)->where('balance', '=', 1)->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->sum('amount');
+        $selectData['incomeSum'] = \DB::table('books')
+            ->where('time_id', '=', $selectTime->id)
+            ->where('balance', '=', 0)
+            ->where('user_id', '=', \Auth::id())
+            ->whereNull('deleted_at')
+            ->sum('amount');
+        $selectData['outgoSum'] = \DB::table('books')
+            ->where('time_id', '=', $selectTime->id)
+            ->where('balance', '=', 1)
+            ->where('user_id', '=', \Auth::id())
+            ->whereNull('deleted_at')
+            ->sum('amount');
 
-        $selectData['income'] = \DB::table('books')->join('categories', 'books.category_id', '=', 'categories.id')->selectRaw("category_id as id, categories.name as name, SUM(books.amount) as sumAmount, categories.balance as balance")->where('time_id', '=', $selectTime->id)->where('books.user_id', '=', \Auth::id())->whereNull('books.deleted_at')->groupBy('category_id')->get();
+        $selectData['income'] = \DB::table('books')
+            ->join('categories', 'books.category_id', '=', 'categories.id')
+            ->selectRaw("category_id as id, categories.name as name, SUM(books.amount) as sumAmount, categories.balance as balance")
+            ->where('time_id', '=', $selectTime->id)
+            ->where('books.user_id', '=', \Auth::id())
+            ->whereNull('books.deleted_at')
+            ->groupBy('category_id')
+            ->get();
         // dd($selectData['income']);
         // var_dump($selectData);
         return $selectData;
@@ -90,7 +123,10 @@ class HomeController extends Controller
             // 最新のbooksレコードの年を表示
             $monthQuery->where('year', '=', $selectData['time']->year);
         }
-        $months = $monthQuery->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->orderBy('month', 'ASC')->get();
+        $months = $monthQuery->where('user_id', '=', \Auth::id())
+            ->whereNull('deleted_at')
+            ->orderBy('month', 'ASC')
+            ->get();
 
         return $months;
     }
@@ -98,7 +134,9 @@ class HomeController extends Controller
     public function selectData(Request $request)
     {
         list($selectData, $months) = self::createData($request);
-        $categories = \DB::table('categories')->where('user_id', '=', \Auth::id())->get();
+        $categories = \DB::table('categories')
+            ->where('user_id', '=', \Auth::id())
+            ->get();
         // dd($categories);
         return view('selectData', compact('months', 'selectData', 'categories'));
     }
@@ -110,7 +148,10 @@ class HomeController extends Controller
         // dd($validatedInput);
         \DB::transaction(function () use ($validatedInput) {
             $isExistCategory = \DB::table('categories')
-                ->where('name', '=', $validatedInput['category'])->where('user_id', '=', \Auth::id())->whereNull('deleted_at')->exists();
+                ->where('name', '=', $validatedInput['category'])
+                ->where('user_id', '=', \Auth::id())
+                ->whereNull('deleted_at')
+                ->exists();
 
             if ($validatedInput['edit'] === 'add') {
                 if (!$isExistCategory) {
